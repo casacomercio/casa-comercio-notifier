@@ -23,15 +23,27 @@ object HttpForwarder {
             append("&texto=").append(enc(texto))
             append("&paquete=").append(enc(paquete))
         }
-        val url = "$base$PATH?$q"
+        return doGet("$base$PATH?$q")
+    }
 
+    /**
+     * Pingea el server para que sepa que la app sigue viva.
+     * Si pasan >15 min sin heartbeat, el server alerta a Juan por WA.
+     */
+    fun heartbeat(ctx: Context): Pair<Boolean, String> {
+        val base = Prefs.getEndpoint(ctx).trimEnd('/')
+        val url = "$base/api/heartbeat-notifier?ts=${System.currentTimeMillis()}"
+        return doGet(url)
+    }
+
+    private fun doGet(url: String): Pair<Boolean, String> {
         return try {
             val u = URL(url)
             val conn = (u.openConnection() as HttpURLConnection).apply {
                 connectTimeout = TIMEOUT_MS
                 readTimeout = TIMEOUT_MS
                 requestMethod = "GET"
-                setRequestProperty("User-Agent", "CCNotifier/1.0")
+                setRequestProperty("User-Agent", "CCNotifier/1.1")
                 setRequestProperty("Accept", "application/json")
             }
             try {
@@ -51,5 +63,5 @@ object HttpForwarder {
         }
     }
 
-    private fun enc(s: String) = URLEncoder.encode(s ?: "", "UTF-8")
+    private fun enc(s: String) = URLEncoder.encode(s, "UTF-8")
 }

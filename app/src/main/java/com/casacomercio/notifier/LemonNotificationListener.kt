@@ -1,7 +1,9 @@
 package com.casacomercio.notifier
 
 import android.app.Notification
+import android.content.Context
 import android.content.Intent
+import android.os.PowerManager
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
@@ -54,19 +56,29 @@ class LemonNotificationListener : NotificationListenerService() {
 
         Log.i(TAG, "Noti capturada [$pkg] titulo='$titulo' texto='$texto'")
 
+        // WakeLock breve durante el procesamiento. Garantiza que el HTTP termine
+        // aunque el celu intente entrar en doze justo en este momento.
+        val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "CCN:notif")
+        wl.acquire(30_000) // 30s max safety
+
         scope.launch {
-            val (ok, info) = HttpForwarder.forward(applicationContext, titulo, texto, pkg)
-            Prefs.appendLog(
-                applicationContext,
-                Prefs.LogEntry(
-                    ts = System.currentTimeMillis(),
-                    titulo = titulo,
-                    texto = texto,
-                    paquete = pkg,
-                    ok = ok,
-                    info = info,
+            try {
+                val (ok, info) = HttpForwarder.forward(applicationContext, titulo, texto, pkg)
+                Prefs.appendLog(
+                    applicationContext,
+                    Prefs.LogEntry(
+                        ts = System.currentTimeMillis(),
+                        titulo = titulo,
+                        texto = texto,
+                        paquete = pkg,
+                        ok = ok,
+                        info = info,
+                    )
                 )
-            )
+            } finally {
+                try { if (wl.isHeld) wl.release() } catch (_: Exception) {}
+            }
         }
     }
 
