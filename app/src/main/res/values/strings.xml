@@ -10,7 +10,8 @@
     <string name="status_active">Activo</string>
     <string name="status_inactive">Sin permiso de notificaciones</string>
     <string name="last_sent">Últimos envíos</string>
-    <string name="clear_log">Limpiar log</string>
+    <string name="clear_log">Limpiar</string>
+    <string name="log_empty">Sin envíos aún. Esperando la primera transferencia.</string>
     <string name="ignore_battery">Quitar de optimización de batería</string>
     <string name="fg_notif_title">Casa Comercio Notifier activo</string>
     <string name="fg_notif_text">Escuchando notificaciones de Lemon</string>

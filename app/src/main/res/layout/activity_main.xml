@@ -1,104 +1,385 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/casa_crema">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
+        <!-- ============================================================= -->
+        <!-- HEADER bordo con marca                                          -->
+        <!-- ============================================================= -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/status_label"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_header"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="36dp">
 
-        <TextView
-            android:id="@+id/tvStatus"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Casa.Eyebrow"
+                android:textColor="@color/casa_dorado"
+                android:text="Casa Comercio · Pagos" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/playfair_display"
+                android:textStyle="bold"
+                android:textSize="36sp"
+                android:textColor="@color/casa_blanco"
+                android:letterSpacing="-0.02"
+                android:text="Notifier" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/sacramento"
+                android:textSize="32sp"
+                android:textColor="@color/casa_dorado"
+                tools:ignore="HardcodedText"
+                android:text="puente con Lemon" />
+        </LinearLayout>
+
+        <!-- ============================================================= -->
+        <!-- CARDS                                                            -->
+        <!-- ============================================================= -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText"
-            xmlns:tools="http://schemas.android.com/tools" />
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="32dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/endpoint_label"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- ESTADO -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Casa.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/etEndpoint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/endpoint_hint"
-            android:inputType="textUri"
-            android:autofillHints="url" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/save" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Casa.Eyebrow"
+                        android:text="Estado" />
 
-        <Button
-            android:id="@+id/btnListener"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/open_listener_settings" />
+                    <LinearLayout
+                        android:id="@+id/chipStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_chip_inactive"
+                        android:paddingHorizontal="14dp"
+                        android:paddingVertical="8dp">
 
-        <Button
-            android:id="@+id/btnBattery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/ignore_battery" />
+                        <View
+                            android:id="@+id/chipDot"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/ic_dot"
+                            android:backgroundTint="@color/casa_negative" />
 
-        <Button
-            android:id="@+id/btnTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/test_connection" />
+                        <TextView
+                            android:id="@+id/tvStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/work_sans"
+                            android:textFontWeight="600"
+                            tools:ignore="UnusedAttribute"
+                            android:textSize="15sp"
+                            android:textColor="@color/casa_negative"
+                            android:text="Sin permiso" />
+                    </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="#22000000" />
+                    <TextView
+                        android:id="@+id/tvStatusHint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        style="@style/Casa.Body"
+                        android:textColor="@color/casa_algarrobo"
+                        android:textSize="14sp"
+                        android:text="Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Lemon." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/last_sent"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <!-- CONFIGURACION -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Casa.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp">
 
-        <Button
-            android:id="@+id/btnClearLog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/clear_log" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-        <TextView
-            android:id="@+id/tvLog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="monospace"
-            android:textSize="12sp"
-            android:textIsSelectable="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Casa.Eyebrow"
+                        android:text="Configuración" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEndpoint"
+                        style="@style/Casa.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:hint="@string/endpoint_label">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEndpoint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri"
+                            android:fontFamily="@font/work_sans"
+                            android:textSize="15sp"
+                            android:textColor="@color/casa_caoba" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
+                        style="@style/Casa.Button.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/save" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ACCIONES -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Casa.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Casa.Eyebrow"
+                        android:text="Permisos &amp; pruebas" />
+
+                    <!-- Listener -->
+                    <LinearLayout
+                        android:id="@+id/btnListener"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_log_item_ok"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_bell"
+                            android:contentDescription="@string/open_listener_settings" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="14dp"
+                            android:fontFamily="@font/work_sans"
+                            android:textFontWeight="600"
+                            tools:ignore="UnusedAttribute"
+                            android:textSize="15sp"
+                            android:textColor="@color/casa_caoba"
+                            android:text="@string/open_listener_settings" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_right"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
+
+                    <!-- Battery -->
+                    <LinearLayout
+                        android:id="@+id/btnBattery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_log_item_ok"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_battery"
+                            android:contentDescription="@string/ignore_battery" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="14dp"
+                            android:fontFamily="@font/work_sans"
+                            android:textFontWeight="600"
+                            tools:ignore="UnusedAttribute"
+                            android:textSize="15sp"
+                            android:textColor="@color/casa_caoba"
+                            android:text="@string/ignore_battery" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_right"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
+
+                    <!-- Test -->
+                    <LinearLayout
+                        android:id="@+id/btnTest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_log_item_ok"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/ic_pulse"
+                            android:contentDescription="@string/test_connection" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="14dp"
+                            android:fontFamily="@font/work_sans"
+                            android:textFontWeight="600"
+                            tools:ignore="UnusedAttribute"
+                            android:textSize="15sp"
+                            android:textColor="@color/casa_caoba"
+                            android:text="@string/test_connection" />
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_arrow_right"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- LOG -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Casa.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            style="@style/Casa.Eyebrow"
+                            android:text="@string/last_sent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnClearLog"
+                            style="@style/Casa.Button.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:paddingHorizontal="10dp"
+                            android:textSize="13sp"
+                            android:text="@string/clear_log" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/logContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvLogEmpty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/playfair_display"
+                        android:textStyle="italic"
+                        android:textSize="14sp"
+                        android:textColor="@color/casa_algarrobo"
+                        android:visibility="gone"
+                        android:text="@string/log_empty" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- FOOTER -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:fontFamily="@font/playfair_display"
+                android:textStyle="italic"
+                android:textSize="13sp"
+                android:textColor="@color/casa_algarrobo"
+                tools:ignore="HardcodedText"
+                android:text="cada noti, en su lugar" />
+        </LinearLayout>
+
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

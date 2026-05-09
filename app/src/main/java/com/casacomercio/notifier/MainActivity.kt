@@ -8,8 +8,13 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.text.format.DateFormat
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.casacomercio.notifier.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
@@ -30,13 +35,13 @@ class MainActivity : AppCompatActivity() {
         b.etEndpoint.setText(Prefs.getEndpoint(this))
 
         b.btnSave.setOnClickListener {
-            val v = b.etEndpoint.text.toString().trim()
+            val v = b.etEndpoint.text?.toString()?.trim().orEmpty()
             if (v.isBlank() || !(v.startsWith("http://") || v.startsWith("https://"))) {
-                Toast.makeText(this, "URL invalida (debe empezar con http:// o https://)", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "URL inválida (debe empezar con http:// o https://)", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             Prefs.setEndpoint(this, v)
-            Toast.makeText(this, "Guardado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Guardado ✓", Toast.LENGTH_SHORT).show()
         }
 
         b.btnListener.setOnClickListener {
@@ -52,16 +57,15 @@ class MainActivity : AppCompatActivity() {
                     intent.data = Uri.parse("package:$packageName")
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Ya esta exenta de optimizacion de bateria ✓", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Ya está exenta de optimización de batería ✓", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                // Si falla, abrir settings genericos de bateria
+            } catch (_: Exception) {
                 startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
             }
         }
 
         b.btnTest.setOnClickListener {
-            b.btnTest.isEnabled = false
+            it.isEnabled = false
             lifecycleScope.launch {
                 val (ok, info) = withContext(Dispatchers.IO) {
                     HttpForwarder.forward(
@@ -71,21 +75,21 @@ class MainActivity : AppCompatActivity() {
                         "com.applemoncash"
                     )
                 }
-                val msg = if (ok) "✅ Conexion OK — $info" else "❌ Falló — $info"
+                val msg = if (ok) "Conexión OK · $info" else "Falló · $info"
                 Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show()
                 Prefs.appendLog(
                     applicationContext,
                     Prefs.LogEntry(
                         ts = System.currentTimeMillis(),
-                        titulo = "[TEST]",
-                        texto = "Probar conexion",
+                        titulo = "Prueba manual",
+                        texto = "Probar conexión con el validador",
                         paquete = "test",
                         ok = ok,
                         info = info,
                     )
                 )
                 refreshLog()
-                b.btnTest.isEnabled = true
+                it.isEnabled = true
             }
         }
 
@@ -99,23 +103,32 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         refreshStatus()
         refreshLog()
-        // Si tiene permiso, asegurarse que el FG service este corriendo
-        if (isListenerEnabled()) {
-            ForwarderService.start(this)
-        }
-        // Auto-refresh del log cada 3s mientras la pantalla este abierta
+        if (isListenerEnabled()) ForwarderService.start(this)
+        // Auto-refresh suave del log mientras la pantalla esté abierta
         lifecycleScope.launch {
             while (true) {
                 delay(3000)
-                if (!isFinishing && !isDestroyed) refreshLog() else return@launch
+                if (isFinishing || isDestroyed) return@launch
+                refreshLog()
             }
         }
     }
 
     private fun refreshStatus() {
         val active = isListenerEnabled()
-        b.tvStatus.text = if (active) getString(R.string.status_active) else getString(R.string.status_inactive)
-        b.tvStatus.setTextColor(getColor(if (active) R.color.green_ok else R.color.red_error))
+        if (active) {
+            b.tvStatus.text = getString(R.string.status_active)
+            b.tvStatus.setTextColor(ContextCompat.getColor(this, R.color.casa_positive))
+            b.chipStatus.background = ContextCompat.getDrawable(this, R.drawable.bg_chip_active)
+            b.chipDot.backgroundTintList = ContextCompat.getColorStateList(this, R.color.casa_positive)
+            b.tvStatusHint.text = "Escuchando notificaciones de Lemon. Cada transferencia se reenvía al validador en tiempo real."
+        } else {
+            b.tvStatus.text = "Sin permiso"
+            b.tvStatus.setTextColor(ContextCompat.getColor(this, R.color.casa_negative))
+            b.chipStatus.background = ContextCompat.getDrawable(this, R.drawable.bg_chip_inactive)
+            b.chipDot.backgroundTintList = ContextCompat.getColorStateList(this, R.color.casa_negative)
+            b.tvStatusHint.text = "Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Lemon."
+        }
     }
 
     private fun isListenerEnabled(): Boolean {
@@ -126,20 +139,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshLog() {
         val entries = Prefs.getLog(this)
+        b.logContainer.removeAllViews()
+
         if (entries.isEmpty()) {
-            b.tvLog.text = "(sin envíos aún)"
+            b.tvLogEmpty.visibility = View.VISIBLE
             return
         }
-        val sb = StringBuilder()
+        b.tvLogEmpty.visibility = View.GONE
+
+        val inflater = LayoutInflater.from(this)
         for (e in entries.take(30)) {
-            val ts = DateFormat.format("dd/MM HH:mm:ss", Date(e.ts))
-            val mark = if (e.ok) "✓" else "✗"
-            sb.append("$mark  $ts  ")
-            sb.append(if (e.titulo.isNotBlank()) "${e.titulo} — " else "")
-            sb.append(e.texto.take(70))
-            if (!e.ok) sb.append("  [${e.info}]")
-            sb.append("\n")
+            val row = inflater.inflate(R.layout.item_log_entry, b.logContainer, false)
+            val ivStatus = row.findViewById<ImageView>(R.id.ivStatus)
+            val tvText = row.findViewById<TextView>(R.id.tvLogText)
+            val tvMeta = row.findViewById<TextView>(R.id.tvLogMeta)
+
+            ivStatus.setImageResource(if (e.ok) R.drawable.ic_check_circle else R.drawable.ic_error)
+            tvText.text = if (e.texto.isNotBlank()) e.texto else e.titulo
+            val ts = DateFormat.format("dd/MM HH:mm:ss", Date(e.ts)).toString()
+            val infoSuffix = if (!e.ok && e.info.isNotBlank()) " · ${e.info}" else ""
+            tvMeta.text = "$ts$infoSuffix"
+
+            b.logContainer.addView(row)
         }
-        b.tvLog.text = sb.toString()
     }
 }

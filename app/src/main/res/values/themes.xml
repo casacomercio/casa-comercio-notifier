@@ -1,8 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.CCNotifier" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#1976D2</item>
-        <item name="colorPrimaryDark">#0D47A1</item>
-        <item name="colorAccent">#FF9800</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.CCNotifier" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Color system mapped to Casa Comercio palette -->
+        <item name="colorPrimary">@color/casa_naranja</item>
+        <item name="colorOnPrimary">@color/casa_blanco</item>
+        <item name="colorPrimaryContainer">@color/casa_naranja_soft</item>
+        <item name="colorOnPrimaryContainer">@color/casa_bordo</item>
+
+        <item name="colorSecondary">@color/casa_dorado</item>
+        <item name="colorOnSecondary">@color/casa_bordo</item>
+        <item name="colorSecondaryContainer">@color/casa_dorado_soft</item>
+        <item name="colorOnSecondaryContainer">@color/casa_bordo</item>
+
+        <item name="colorTertiary">@color/casa_caoba</item>
+        <item name="colorOnTertiary">@color/casa_blanco</item>
+
+        <item name="colorError">@color/casa_negative</item>
+        <item name="colorOnError">@color/casa_blanco</item>
+        <item name="colorErrorContainer">@color/casa_negative_soft</item>
+        <item name="colorOnErrorContainer">@color/casa_negative</item>
+
+        <item name="android:colorBackground">@color/casa_crema</item>
+        <item name="colorSurface">@color/casa_blanco</item>
+        <item name="colorOnSurface">@color/casa_caoba</item>
+        <item name="colorOnSurfaceVariant">@color/casa_algarrobo</item>
+        <item name="colorOutline">@color/casa_rule</item>
+        <item name="colorOutlineVariant">@color/casa_rule_soft</item>
+
+        <item name="colorSurfaceContainer">@color/casa_blanco</item>
+        <item name="colorSurfaceContainerHigh">@color/casa_crema_deep</item>
+        <item name="colorSurfaceContainerHighest">@color/casa_crema_deep</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/casa_bordo</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/casa_crema</item>
+
+        <!-- Type system -->
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="fontFamily">@font/work_sans</item>
+
+        <!-- Default body text colour -->
+        <item name="android:textColorPrimary">@color/casa_caoba</item>
+        <item name="android:textColorSecondary">@color/casa_algarrobo</item>
+
+        <!-- Material text appearances -->
+        <item name="textAppearanceDisplayLarge">@style/Casa.Display.Large</item>
+        <item name="textAppearanceDisplayMedium">@style/Casa.Display.Medium</item>
+        <item name="textAppearanceHeadlineMedium">@style/Casa.Headline</item>
+        <item name="textAppearanceTitleLarge">@style/Casa.Title</item>
+        <item name="textAppearanceBodyLarge">@style/Casa.Body</item>
+        <item name="textAppearanceBodyMedium">@style/Casa.Body</item>
+        <item name="textAppearanceLabelLarge">@style/Casa.Label</item>
+    </style>
+
+    <style name="Casa.Display.Large" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">@font/playfair_display</item>
+        <item name="fontFamily">@font/playfair_display</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">@color/casa_bordo</item>
+    </style>
+
+    <style name="Casa.Display.Medium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">@font/playfair_display</item>
+        <item name="fontFamily">@font/playfair_display</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/casa_bordo</item>
+    </style>
+
+    <style name="Casa.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">@font/playfair_display</item>
+        <item name="fontFamily">@font/playfair_display</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/casa_bordo</item>
+    </style>
+
+    <style name="Casa.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+        <item name="android:textColor">@color/casa_caoba</item>
+    </style>
+
+    <style name="Casa.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:textColor">@color/casa_caoba</item>
+    </style>
+
+    <style name="Casa.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <style name="Casa.Eyebrow">
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="fontFamily">@font/work_sans</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">500</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.32</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/casa_caoba</item>
+    </style>
+
+    <style name="Casa.Signature">
+        <item name="android:fontFamily">@font/sacramento</item>
+        <item name="fontFamily">@font/sacramento</item>
+        <item name="android:textColor">@color/casa_naranja</item>
+    </style>
+
+    <!-- Buttons -->
+    <style name="Casa.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/casa_naranja</item>
+        <item name="android:textColor">@color/casa_blanco</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Casa.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="backgroundTint">@color/casa_crema_deep</item>
+        <item name="android:textColor">@color/casa_bordo</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">600</item>
+    </style>
+
+    <style name="Casa.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/casa_caoba</item>
+        <item name="android:fontFamily">@font/work_sans</item>
+    </style>
+
+    <!-- Cards -->
+    <style name="Casa.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/casa_blanco</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/casa_rule_soft</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Text input -->
+    <style name="Casa.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/casa_caoba</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="hintTextColor">@color/casa_caoba</item>
+        <item name="android:textColorHint">@color/casa_algarrobo</item>
     </style>
 </resources>
