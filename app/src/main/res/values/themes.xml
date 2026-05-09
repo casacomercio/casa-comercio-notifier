@@ -97,7 +97,7 @@
         <item name="android:letterSpacing">0.05</item>
     </style>
 
-    <style name="Casa.Eyebrow">
+    <style name="Casa.Eyebrow" parent="TextAppearance.Material3.LabelSmall">
         <item name="android:fontFamily">@font/work_sans</item>
         <item name="fontFamily">@font/work_sans</item>
         <item name="android:textFontWeight" tools:ignore="NewApi">500</item>
@@ -107,7 +107,7 @@
         <item name="android:textColor">@color/casa_caoba</item>
     </style>
 
-    <style name="Casa.Signature">
+    <style name="Casa.Signature" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:fontFamily">@font/sacramento</item>
         <item name="fontFamily">@font/sacramento</item>
         <item name="android:textColor">@color/casa_naranja</item>
