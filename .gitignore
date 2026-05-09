@@ -12,3 +12,8 @@ app/build
 app/release
 *.keystore
 *.jks
+# google-services.json contiene API key publica, NO es secret. Se commitea
+# para que el CI compile.
+# El service account de Firebase Admin SDK SI es secret y NO va al repo:
+**/firebase-service-account*.json
+**/*-firebase-adminsdk-*.json

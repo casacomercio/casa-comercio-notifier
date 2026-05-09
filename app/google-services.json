@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "41680799959",
+    "project_id": "casa-comercio-notifier",
+    "storage_bucket": "casa-comercio-notifier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41680799959:android:630f500d6e05d34a240892",
+        "android_client_info": {
+          "package_name": "com.casacomercio.notifier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6nerizNGkYr9Qqv7wVGFnICrw3ZM1LsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

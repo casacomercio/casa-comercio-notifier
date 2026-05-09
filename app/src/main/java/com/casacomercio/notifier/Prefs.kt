@@ -9,6 +9,7 @@ object Prefs {
     private const val FILE = "ccn_prefs"
     private const val K_ENDPOINT = "endpoint"
     private const val K_LOG = "log_json"
+    private const val K_FCM_TOKEN = "fcm_token"
     private const val DEFAULT_ENDPOINT = "http://76.13.162.145:3001"
     private const val MAX_LOG_ENTRIES = 50
 
@@ -74,5 +75,11 @@ object Prefs {
 
     fun clearLog(ctx: Context) {
         sp(ctx).edit().putString(K_LOG, "[]").apply()
+    }
+
+    fun getFcmToken(ctx: Context): String? = sp(ctx).getString(K_FCM_TOKEN, null)
+
+    fun setFcmToken(ctx: Context, token: String?) {
+        sp(ctx).edit().putString(K_FCM_TOKEN, token).apply()
     }
 }

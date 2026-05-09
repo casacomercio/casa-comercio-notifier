@@ -28,11 +28,25 @@ object HttpForwarder {
 
     /**
      * Pingea el server para que sepa que la app sigue viva.
-     * Si pasan >15 min sin heartbeat, el server alerta a Juan por WA.
+     * Si pasan >15 min sin heartbeat, el server alerta a Juan por WA y manda
+     * un FCM push para despertar a la app.
      */
     fun heartbeat(ctx: Context): Pair<Boolean, String> {
         val base = Prefs.getEndpoint(ctx).trimEnd('/')
-        val url = "$base/api/heartbeat-notifier?ts=${System.currentTimeMillis()}"
+        // Aprovecho el heartbeat para reportar el FCM token (idempotente)
+        val token = Prefs.getFcmToken(ctx)
+        val tokenParam = if (!token.isNullOrBlank()) "&fcm_token=${enc(token)}" else ""
+        val url = "$base/api/heartbeat-notifier?ts=${System.currentTimeMillis()}$tokenParam"
+        return doGet(url)
+    }
+
+    /**
+     * Registra/actualiza el token FCM en el server. Llamado cuando Firebase
+     * emite un nuevo token (instalacion fresca o rotacion).
+     */
+    fun registrarFcmToken(ctx: Context, token: String): Pair<Boolean, String> {
+        val base = Prefs.getEndpoint(ctx).trimEnd('/')
+        val url = "$base/api/fcm-token?token=${enc(token)}"
         return doGet(url)
     }
 

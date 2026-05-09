@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.casacomercio.notifier.databinding.ActivityMainBinding
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -104,6 +105,15 @@ class MainActivity : AppCompatActivity() {
         refreshStatus()
         refreshLog()
         if (isListenerEnabled()) ForwarderService.start(this)
+        // Asegurar que tenemos token FCM y mandarlo al server
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            if (!token.isNullOrBlank()) {
+                Prefs.setFcmToken(applicationContext, token)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    HttpForwarder.registrarFcmToken(applicationContext, token)
+                }
+            }
+        }
         // Auto-refresh suave del log mientras la pantalla esté abierta
         lifecycleScope.launch {
             while (true) {
