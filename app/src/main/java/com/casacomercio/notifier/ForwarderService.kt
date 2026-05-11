@@ -6,12 +6,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.SystemClock
+import android.service.notification.NotificationListenerService
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -134,6 +136,17 @@ class ForwarderService : Service() {
             wl.acquire(20_000) // 20s max
             val (ok, info) = HttpForwarder.heartbeat(applicationContext)
             Log.i(TAG, "Heartbeat: ok=$ok, $info")
+            // Forzar rebind del listener cada heartbeat. Esto destraba situaciones donde
+            // el listener quedó bind pero Android dejó de despachar onNotificationPosted
+            // (típico cuando Lemon agrupa notis o pinned una vieja).
+            try {
+                NotificationListenerService.requestRebind(
+                    ComponentName(applicationContext, LemonNotificationListener::class.java)
+                )
+                Log.i(TAG, "requestRebind del listener forzado")
+            } catch (e: Exception) {
+                Log.e(TAG, "requestRebind falló: ${e.message}")
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Heartbeat error: ${e.message}")
         } finally {
