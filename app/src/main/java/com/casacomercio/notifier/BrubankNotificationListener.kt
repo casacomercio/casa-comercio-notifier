@@ -13,22 +13,19 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class LemonNotificationListener : NotificationListenerService() {
+class BrubankNotificationListener : NotificationListenerService() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     companion object {
         private const val TAG = "CCN-Listener"
         private val PAQUETES_OK = setOf(
-            "com.applemoncash",        // Lemon Cash
-            "com.brubank",             // Brubank
+            "com.brubank",             // Brubank (única fuente activa, Lemon dado de baja 2026-06-30)
         )
         // Detector de líneas con transferencia real (para discriminar dentro de notis
-        // agrupadas / Inbox style). Cubre dos formatos:
-        //   Lemon:   "Recibiste 32.130 ARS" / "MERCADO LUCAS te envió 62.300 ARS"
-        //   Brubank: "QUINTANAL,SILVIA ALICI te envió $ 37.800"
+        // agrupadas / Inbox style). Formato Brubank: "X te envió $ Y".
         private val RX_TRANSFER = Regex(
-            "(Recibiste|te\\s+envi[oó]|te\\s+transfiri[oó])\\s.*?(\\$\\s*[\\d.,]+|[\\d.,]+\\s*ARS)",
+            "te\\s+envi[oó]\\s.*?\\$\\s*[\\d.,]+",
             RegexOption.IGNORE_CASE
         )
     }
@@ -38,7 +35,7 @@ class LemonNotificationListener : NotificationListenerService() {
         Log.i(TAG, "Listener conectado")
         ForwarderService.start(applicationContext)
 
-        // Al conectar, reprocesar las notis activas. Si Lemon dejó una transferencia
+        // Al conectar, reprocesar las notis activas. Si Brubank dejó una transferencia
         // pinned y no la habíamos visto, la procesamos ahora.
         try {
             val activas = activeNotifications ?: emptyArray()
@@ -55,7 +52,7 @@ class LemonNotificationListener : NotificationListenerService() {
         Log.w(TAG, "Listener desconectado, pidiendo rebind")
         super.onListenerDisconnected()
         try {
-            requestRebind(ComponentName(this, LemonNotificationListener::class.java))
+            requestRebind(ComponentName(this, BrubankNotificationListener::class.java))
         } catch (e: Exception) {
             Log.e(TAG, "requestRebind falló: ${e.message}")
         }

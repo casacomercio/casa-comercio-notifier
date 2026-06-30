@@ -71,9 +71,9 @@ class MainActivity : AppCompatActivity() {
                 val (ok, info) = withContext(Dispatchers.IO) {
                     HttpForwarder.forward(
                         applicationContext,
-                        "Recibiste una transferencia 💸",
-                        "Recibiste 1,00 ARS de TEST CCNotifier",
-                        "com.applemoncash"
+                        "Tienes una notificación de Brubank",
+                        "TEST CCNotifier te envió $ 1",
+                        "com.brubank"
                     )
                 }
                 val msg = if (ok) "Conexión OK · $info" else "Falló · $info"
@@ -131,18 +131,18 @@ class MainActivity : AppCompatActivity() {
             b.tvStatus.setTextColor(ContextCompat.getColor(this, R.color.casa_positive))
             b.chipStatus.background = ContextCompat.getDrawable(this, R.drawable.bg_chip_active)
             b.chipDot.backgroundTintList = ContextCompat.getColorStateList(this, R.color.casa_positive)
-            b.tvStatusHint.text = "Escuchando notificaciones de Lemon. Cada transferencia se reenvía al validador en tiempo real."
+            b.tvStatusHint.text = "Escuchando notificaciones de Brubank. Cada transferencia se reenvía al validador en tiempo real."
         } else {
             b.tvStatus.text = "Sin permiso"
             b.tvStatus.setTextColor(ContextCompat.getColor(this, R.color.casa_negative))
             b.chipStatus.background = ContextCompat.getDrawable(this, R.drawable.bg_chip_inactive)
             b.chipDot.backgroundTintList = ContextCompat.getColorStateList(this, R.color.casa_negative)
-            b.tvStatusHint.text = "Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Lemon."
+            b.tvStatusHint.text = "Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Brubank."
         }
     }
 
     private fun isListenerEnabled(): Boolean {
-        val cn = ComponentName(this, LemonNotificationListener::class.java)
+        val cn = ComponentName(this, BrubankNotificationListener::class.java)
         val flat = Settings.Secure.getString(contentResolver, "enabled_notification_listeners") ?: return false
         return flat.split(":").any { it.contains(cn.flattenToString()) || it.contains(cn.packageName) }
     }

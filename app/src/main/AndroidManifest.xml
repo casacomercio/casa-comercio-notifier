@@ -30,7 +30,7 @@
         </activity>
 
         <service
-            android:name=".LemonNotificationListener"
+            android:name=".BrubankNotificationListener"
             android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">

@@ -51,7 +51,7 @@
                 android:textSize="32sp"
                 android:textColor="@color/casa_dorado"
                 tools:ignore="HardcodedText"
-                android:text="puente con Lemon" />
+                android:text="puente con Brubank" />
         </LinearLayout>
 
         <!-- ============================================================= -->
@@ -122,7 +122,7 @@
                         style="@style/Casa.Body"
                         android:textColor="@color/casa_algarrobo"
                         android:textSize="14sp"
-                        android:text="Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Lemon." />
+                        android:text="Otorgá el acceso de notificaciones para que la app empiece a reenviar las transferencias de Brubank." />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

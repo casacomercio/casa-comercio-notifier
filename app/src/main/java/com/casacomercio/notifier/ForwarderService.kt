@@ -138,10 +138,10 @@ class ForwarderService : Service() {
             Log.i(TAG, "Heartbeat: ok=$ok, $info")
             // Forzar rebind del listener cada heartbeat. Esto destraba situaciones donde
             // el listener quedó bind pero Android dejó de despachar onNotificationPosted
-            // (típico cuando Lemon agrupa notis o pinned una vieja).
+            // (típico cuando la app fuente agrupa notis o pinned una vieja).
             try {
                 NotificationListenerService.requestRebind(
-                    ComponentName(applicationContext, LemonNotificationListener::class.java)
+                    ComponentName(applicationContext, BrubankNotificationListener::class.java)
                 )
                 Log.i(TAG, "requestRebind del listener forzado")
             } catch (e: Exception) {
