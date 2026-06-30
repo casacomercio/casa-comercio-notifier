@@ -21,10 +21,16 @@ class LemonNotificationListener : NotificationListenerService() {
         private const val TAG = "CCN-Listener"
         private val PAQUETES_OK = setOf(
             "com.applemoncash",        // Lemon Cash
+            "com.brubank",             // Brubank
         )
-        // Indica que el listener procesó "Recibiste X ARS de Y" — para distinguir de
-        // notis genéricas o agrupadas.
-        private val RX_TRANSFER = Regex("Recibiste\\s+[\\d.,]+\\s*ARS", RegexOption.IGNORE_CASE)
+        // Detector de líneas con transferencia real (para discriminar dentro de notis
+        // agrupadas / Inbox style). Cubre dos formatos:
+        //   Lemon:   "Recibiste 32.130 ARS" / "MERCADO LUCAS te envió 62.300 ARS"
+        //   Brubank: "QUINTANAL,SILVIA ALICI te envió $ 37.800"
+        private val RX_TRANSFER = Regex(
+            "(Recibiste|te\\s+envi[oó]|te\\s+transfiri[oó])\\s.*?(\\$\\s*[\\d.,]+|[\\d.,]+\\s*ARS)",
+            RegexOption.IGNORE_CASE
+        )
     }
 
     override fun onListenerConnected() {
